@@ -1,6 +1,12 @@
 import { toCurrency } from '../lib/utils';
-import { latteData, matchaData, moneyData } from '../data/counterData';
+import {
+  counterAttr,
+  latteData,
+  matchaData,
+  moneyData,
+} from '../data/counterData';
 import { UseClicks, useClicks } from '../hooks/useClicks';
+import { JSXInternal } from 'preact/src/jsx';
 
 export const Stats = () => {
   const values = useClicks();
@@ -17,25 +23,13 @@ export const Stats = () => {
             <dt class="text-lg font-normal text-emerald-400">{item.name}</dt>
             <dd class="flex w-full flex-col items-center justify-between gap-4">
               <div class="flex items-baseline text-3xl font-semibold text-emerald-600">
-                {item.name === 'Money' ? toCurrency(value) : value.toFixed(0)}
+                {item.display(value)}
               </div>
-              {/* <div
-                class={classNames(
-                  item.changeType === 'increase'
-                    ? 'bg-green-100 text-green-800'
-                    : 'bg-red-100 text-red-800',
-                  'inline-flex items-baseline rounded-full px-2.5 py-0.5 text-sm font-medium md:mt-2 lg:mt-0'
-                )}>
-                <span class="sr-only">
-                  {item.changeType === 'increase' ? 'Increased' : 'Decreased'}{' '}
-                  by
-                </span>
-                {item.change}
-              </div> */}
             </dd>
             {item.function && (
               <button
-                class="mx-auto px-4 py-2 text-neutral-100"
+                class="mx-auto px-4 py-2 text-neutral-100 disabled:opacity-50"
+                disabled={item.function.isDisabled(values)}
                 onClick={item.function.func(values)}>
                 {item.function.label}
               </button>
@@ -49,10 +43,12 @@ export const Stats = () => {
 
 type stat = {
   name: string;
-  data: typeof latteData;
+  data: counterAttr;
+  display: (value: number) => string | JSXInternal.Element;
   function?: {
     label: string;
     func: (values: UseClicks) => () => void;
+    isDisabled: (values: UseClicks) => boolean;
   };
 };
 
@@ -60,19 +56,22 @@ const stats: stat[] = [
   {
     name: 'Matcha',
     data: matchaData,
+    display: (value) => value.toFixed(0),
     function: {
-      label: 'Buy Matcha (30 for $50)',
+      label: 'Buy Matcha (30 for $100)',
       func: (values) => () => {
-        if (values.money >= 50) {
+        if (values.money >= 100) {
           matchaData.target += 30;
-          moneyData.target -= 50;
+          moneyData.target -= 100;
         }
       },
+      isDisabled: (values) => values.money < 100,
     },
   },
   {
     name: 'Lattes',
     data: latteData,
+    display: (value) => value.toFixed(0),
     function: {
       label: 'Make Latte',
       func: (values: UseClicks) => () => {
@@ -80,10 +79,22 @@ const stats: stat[] = [
         matchaData.target -= 1;
         latteData.target += 1;
       },
+      isDisabled: (values) => values.matcha <= 0,
     },
   },
   {
     name: 'Money',
     data: moneyData,
+    display: (value) => {
+      const string = toCurrency(value);
+      return value >= 0 ? (
+        string
+      ) : (
+        <>
+          {string}
+          <span class="text-sm text-red-400">-4%</span>
+        </>
+      );
+    },
   },
 ];

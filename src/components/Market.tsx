@@ -7,20 +7,18 @@ export const Market = () => {
   const [demand] = useGlobalState<number>('demand', 1);
   const [price, setPrice] = useState<number>(7);
   const [breakpoint, setBreakpoint] = useState<number>(0);
-  const sales = useCallback(() => {
-    if (latteData.lastValue <= 0) return;
-
-    const toSell = Math.floor(Math.random() / breakpoint);
-
-    latteData.target -= Math.min(toSell, latteData.lastValue);
-    moneyData.target += Math.min(toSell, latteData.lastValue) * price;
-  }, [breakpoint]);
 
   useEffect(() => setBreakpoint(price / 15 / demand), [demand, price]);
 
   useEffect(() => {
-    tickFunctions.market = sales;
-  }, [sales]);
+    tickFunctions.market = () => {
+      if (latteData.lastValue <= 0) return;
+      const toSell = Math.floor(Math.random() / breakpoint);
+      latteData.target -= Math.min(toSell, latteData.lastValue);
+      moneyData.target += Math.min(toSell, latteData.lastValue) * price;
+      if (moneyData.lastValue < 0) moneyData.target += moneyData.lastValue / 25;
+    };
+  }, [breakpoint]);
 
   return (
     <div class="flex flex-col gap-y-2 py-8 text-neutral-100">
@@ -38,7 +36,7 @@ export const Market = () => {
           )}>
           -$0.10
         </button>
-        <span>{toCurrency(price)}</span>
+        <span class="text-xl">{toCurrency(price)}</span>
         <button
           class="rounded bg-gray-100 px-4 py-2 text-center text-neutral-800"
           type="button"
