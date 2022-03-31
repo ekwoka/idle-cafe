@@ -23,9 +23,12 @@ export const Market = () => {
   }, [sales]);
 
   return (
-    <div class="flex flex-col gap-y-2 text-neutral-100" onClick={sales}>
-      <h2>Market</h2>
-      <div class="flex flex-row gap-x-2">
+    <div class="flex flex-col gap-y-2 py-8 text-neutral-100">
+      <div className="flex flex-row justify-between">
+        <h2>Market</h2>
+        <span>{((1 - breakpoint) * 100 * demand).toFixed(0)}% Demand</span>
+      </div>
+      <div class="flex flex-row items-center gap-x-8">
         <button
           class="rounded bg-gray-100 px-4 py-2 text-center text-neutral-800"
           type="button"
