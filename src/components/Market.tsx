@@ -9,9 +9,9 @@ export const Market = () => {
   const [breakpoint, setBreakpoint] = useState<number>(0);
   const sales = useCallback(() => {
     if (latteData.lastValue <= 0) return;
-    console.log(breakpoint);
+
     const toSell = Math.floor(Math.random() / breakpoint);
-    console.log(toSell);
+
     latteData.target -= Math.min(toSell, latteData.lastValue);
     moneyData.target += Math.min(toSell, latteData.lastValue) * price;
   }, [breakpoint]);

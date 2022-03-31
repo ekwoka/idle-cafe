@@ -1,4 +1,4 @@
-type counterAttr = {
+export type counterAttr = {
   target: number;
   perSecond: number;
   lastValue: number;

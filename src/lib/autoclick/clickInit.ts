@@ -1,4 +1,4 @@
-import { latteData } from '../../data/counterData';
+import { counterAttr } from '../../data/counterData';
 import { animateFrame } from '../utils/animateFrame';
 import { autoclickInit } from './autoclickInit';
 
@@ -6,7 +6,7 @@ let initialized = false;
 let lastFrame = 0;
 
 export const clickInit = (
-  ...dataTypes: [(v: number) => void, typeof latteData][]
+  ...dataTypes: [(v: number) => void, counterAttr][]
 ): void => {
   if (initialized) return;
   autoclickInit();
@@ -20,9 +20,12 @@ export const clickInit = (
 };
 
 const updateUI =
-  (setValue: (v: number) => void, itemData: typeof latteData) =>
+  (setValue: (v: number) => void, itemData: counterAttr) =>
   (diff: number): void => {
-    let transfer: number = +(itemData.target * (diff / 500)).toFixed(1);
+    let transfer: number =
+      diff > 500
+        ? itemData.target
+        : +(itemData.target * (diff / 500)).toFixed(1);
     transfer =
       Math.abs(transfer) > 0.1 ? transfer : Math.min(0.1, itemData.target);
     itemData.target -= transfer;
