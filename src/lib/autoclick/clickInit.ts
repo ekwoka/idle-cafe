@@ -31,7 +31,7 @@ const updateUI =
       Math.abs(transfer) > 0.1 ? transfer : Math.min(0.1, itemData.target);
     if (isNaN(transfer)) return console.error('transfer is NaN', itemData);
     itemData.target -= transfer;
-    const newValue = Number((itemData.lastValue + transfer).toFixed(2))
+    const newValue = Number((itemData.lastValue + transfer).toFixed(2));
     setValue(newValue);
     itemData.lastValue = newValue;
   };

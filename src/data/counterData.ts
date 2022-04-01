@@ -35,13 +35,13 @@ export const storeInit = () => {
       localStorage.setItem(key, lastValue.toString())
     );
 
-    // @ts-ignore
-    window.cafeDebug = {
-      reset() {
-        tickFunctions.store = () => {} // eslint-disable-line no-empty-functions
-        dataKeys.forEach(([_, key]) => localStorage.removeItem(key))
-      }
-    }
+  // @ts-ignore
+  window.cafeDebug = {
+    reset() {
+      tickFunctions.store = () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
+      dataKeys.forEach((key) => localStorage.removeItem(key[1]));
+    },
+  };
 };
 
 const dataKeys: [counterAttr, string][] = [

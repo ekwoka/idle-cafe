@@ -71,7 +71,7 @@ const upgrades: UpgradeOptions[] = [
             if (matchaData.lastValue > level || moneyData.lastValue < 15000)
               return;
             matchaData.target += 30;
-            moneyData.target -= 10000 * (1.05 ** (5 - level));
+            moneyData.target -= 10000 * 1.05 ** (5 - level);
           }
         : () => {}, //eslint-disable-line @typescript-eslint/no-empty-function
     display: (cost) => toCurrency(cost),

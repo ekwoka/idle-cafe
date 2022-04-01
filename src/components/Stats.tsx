@@ -65,7 +65,7 @@ const stats: stat[] = [
           moneyData.target -= 10000;
         }
       },
-      isDisabled: (values) => values.money < 100,
+      isDisabled: (values) => values.money < 10000,
     },
   },
   {
