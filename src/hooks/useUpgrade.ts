@@ -1,6 +1,7 @@
 import { useGlobalState } from 'preact-global-state';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import * as counterData from '../data/counterData';
+import { useStorage } from './useStorage';
 
 export type UpgradeOptions = {
   name: string;
@@ -13,7 +14,7 @@ export type UpgradeOptions = {
 
 export function useUpgrade(options: UpgradeOptions) {
   const [clicks] = useGlobalState<number>(options.costType, 0);
-  const [level, setLevel] = useState<number>(0);
+  const [level, setLevel] = useStorage<number>(options.name, 0);
   const [cost, setCost] = useState<number>(options.cost);
   const [enabled, setEnabled] = useState<boolean>(false);
   setEnabled(clicks >= cost - 1);

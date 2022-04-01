@@ -60,9 +60,9 @@ const stats: stat[] = [
     function: {
       label: 'Buy Matcha (30 for $100)',
       func: (values) => () => {
-        if (values.money >= 100) {
+        if (values.money >= 10000) {
           matchaData.target += 30;
-          moneyData.target -= 100;
+          moneyData.target -= 10000;
         }
       },
       isDisabled: (values) => values.money < 100,

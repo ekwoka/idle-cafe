@@ -1,14 +1,15 @@
 import { useGlobalState } from 'preact-global-state';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import { latteData, moneyData, tickFunctions } from '../data/counterData';
+import { useStorage } from '../hooks/useStorage';
 import { toCurrency } from '../lib/utils';
 
 export const Market = () => {
   const [demand] = useGlobalState<number>('demand', 1);
-  const [price, setPrice] = useState<number>(7);
+  const [price, setPrice] = useStorage<number>('price', 700);
   const [breakpoint, setBreakpoint] = useState<number>(0);
 
-  useEffect(() => setBreakpoint(price / 15 / demand), [demand, price]);
+  useEffect(() => setBreakpoint(price / 1500 / demand), [demand, price]);
 
   useEffect(() => {
     tickFunctions.market = () => {
@@ -31,7 +32,7 @@ export const Market = () => {
           class="rounded bg-gray-100 px-4 py-2 text-center text-neutral-800"
           type="button"
           onClick={useCallback(
-            () => setPrice((prev) => (prev <= 0.2 ? 0.1 : prev - 0.1)),
+            () => setPrice((prev) => (prev <= 20 ? 10 : prev - 10)),
             []
           )}>
           -$0.10
@@ -40,7 +41,7 @@ export const Market = () => {
         <button
           class="rounded bg-gray-100 px-4 py-2 text-center text-neutral-800"
           type="button"
-          onClick={useCallback(() => setPrice((prev) => prev + 0.1), [])}>
+          onClick={useCallback(() => setPrice((prev) => prev + 10), [])}>
           +$0.10
         </button>
       </div>
