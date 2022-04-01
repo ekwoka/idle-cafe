@@ -10,6 +10,7 @@ export type UpgradeOptions = {
   costFunction?: (level: number) => (prev: number) => number;
   tickFunction?: (level: number) => (prev: number | undefined) => void;
   display: (cost: number) => string;
+  description?: string;
 };
 
 export function useUpgrade(options: UpgradeOptions) {

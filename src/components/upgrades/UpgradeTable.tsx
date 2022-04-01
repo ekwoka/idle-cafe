@@ -1,5 +1,5 @@
 import { JSXInternal } from 'preact/src/jsx';
-import { upgradeData } from '../../data/updateData';
+import { upgradeData } from '../../data/upgradeData';
 import { SingleUpgrade } from './SingleUpgrade';
 
 export const UpgradeTable = () => (

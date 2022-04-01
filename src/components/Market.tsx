@@ -1,11 +1,15 @@
 import { useGlobalState } from 'preact-global-state';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import { latteData, moneyData, tickFunctions } from '../data/counterData';
+import { marketData } from '../data/marketData';
 import { useStorage } from '../hooks/useStorage';
 import { toCurrency } from '../lib/utils';
 
 export const Market = () => {
-  const [demand] = useGlobalState<number>('demand', 1);
+  const [demand, setDemand] = useGlobalState<number>(
+    'demand',
+    marketData.demand
+  );
   const [price, setPrice] = useStorage<number>('price', 700);
   const [breakpoint, setBreakpoint] = useState<number>(0);
 
@@ -13,6 +17,7 @@ export const Market = () => {
 
   useEffect(() => {
     tickFunctions.market = () => {
+      setDemand(marketData.demand);
       if (latteData.lastValue <= 0) return;
       const toSell = Math.floor(Math.random() / breakpoint);
       latteData.target -= Math.min(toSell, latteData.lastValue);

@@ -34,10 +34,10 @@ export const SingleUpgrade = ({ options, name }: SingleUpgradeProps) => {
           </button>
         </td>
       </tr>
-      {isExpanded && (
+      {options.description && isExpanded && (
         <tr>
           <td colSpan={4} class="bg-neutral-600 py-4 px-2">
-            This is info about the above upgrade
+            {options.description}
           </td>
         </tr>
       )}

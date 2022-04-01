@@ -28,7 +28,11 @@ const updateUI =
         ? itemData.target
         : +(itemData.target * (diff / 500)).toFixed(1);
     transfer =
-      Math.abs(transfer) > 0.1 ? transfer : Math.min(0.1, itemData.target);
+      Math.abs(transfer) > 0.1
+        ? transfer
+        : transfer < 0
+        ? Math.max(-0.1, itemData.target)
+        : Math.min(0.1, itemData.target);
     if (isNaN(transfer)) return console.error('transfer is NaN', itemData);
     itemData.target -= transfer;
     const newValue = Number((itemData.lastValue + transfer).toFixed(2));
