@@ -80,7 +80,8 @@
       "no-unused-vars": "off",
       "@typescript-eslint/no-unused-vars": [
         "error"
-      ]
+      ],
+      "react-hooks/exhaustive-deps": "off"
     }
   },
   "prettier": {

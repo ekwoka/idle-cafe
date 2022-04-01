@@ -24,7 +24,7 @@ export function useUpgrade(options: UpgradeOptions) {
       counterData[`${options.costType}Data`].target -= cost;
       setLevel((level) => level + 1);
     }
-  }, [enabled]);
+  }, [enabled, options, cost]);
 
   useEffect(() => {
     if (options.costFunction) {
@@ -33,7 +33,7 @@ export function useUpgrade(options: UpgradeOptions) {
     if (options.tickFunction) {
       counterData.tickFunctions[options.name] = options.tickFunction(level);
     }
-  }, [level]);
+  }, [level, options]);
 
   return { level, upgrade, cost, enabled };
 }
